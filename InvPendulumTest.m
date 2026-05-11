@@ -1,13 +1,13 @@
 clear;
 
-mass = 1;
-l = .7;
-g = 9.81;
+mass = 1; %kg
+l = .7; %meters
+g = 9.81; %m/s
 
-theta0 = deg2rad(-10);
+theta0 = deg2rad(-10); %the number is degrees in it
 omega0 = 0;
 
-phi = deg2rad(80);
+phi = deg2rad(80); %the number is degrees in it
 
 state0 = [theta0; omega0];
 
@@ -21,18 +21,9 @@ tspan = 0:dt:0.7;
 theta = x(:,1);
 theta_dot = x(:,2);
 
-% Plot angle
-figure;
-plot(t, rad2deg(theta), 'LineWidth', 2);
-xlabel('Time (s)');
-ylabel('\theta (deg)');
-title('Inverted Pendulum Fall');
-grid on;
-
-
 s = zeros(length(theta), 1);
 forearm_inches = zeros(length(theta), 1);
-figure;
+figure(1);
 for i = 1:length(t)
 
     clf;
@@ -90,6 +81,25 @@ end
 
 cooked_angle = rad2deg(theta) + rad2deg(phi);
 
+% Plot angle
+figure(3);
+plot(t, rad2deg(theta), 'LineWidth', 2);
+xlabel('Time (s)');
+ylabel('\theta (deg)');
+title('Inverted Pendulum Fall');
+grid on;
+
+%final variable which shows at any given time what the forearm length should
+%be, at time 0 it should be that length right when we begin falling
+time_and_forearm = [t forearm_inches];
+
+figure(2);
+plot(t, forearm_inches, 'LineWidth', 2);
+xlabel('Time (s)');
+ylabel('Forelimb Length (inches)');
+title('Forelimb Length');
+grid on;
+
 function dx = invPendulum(x, l, g)
 
 theta = x(1);
@@ -100,5 +110,3 @@ theta_ddot = (g/l)*sin(theta);
 dx = [theta_dot;
       theta_ddot];
 end
-
-time_and_forearm = [t forearm_inches];
