@@ -1,20 +1,21 @@
 clear;
 
 mass = 1; %kg
-l = .7; %meters
+l = .3; %meters
+l_inches = l * 39.3701;
 g = 9.81; %m/s
 
-theta0 = deg2rad(-10); %the number is degrees in it
+theta0 = deg2rad(-5); %the number is degrees in it
 omega0 = 0;
 
-phi = deg2rad(80); %the number is degrees in it
+phi = deg2rad(85); %the number is degrees in it
 
 state0 = [theta0; omega0];
 
-time = [0 0.7];
+time = [0 0.55];
 
 dt = 0.01;
-tspan = 0:dt:0.7;
+tspan = 0:dt:0.55;
 
 [t, x] = ode45(@(t,x) invPendulum(x, l, g), tspan, state0);
 
@@ -69,7 +70,7 @@ for i = 1:length(t)
         'MarkerSize', 10);
 
     axis equal;
-    axis([-1.5 1.5 -1.5 1.5]);
+    axis([-.75 .75 -.75 .75]);
 
     title(sprintf('t = %.2f s', t(i)));
 
