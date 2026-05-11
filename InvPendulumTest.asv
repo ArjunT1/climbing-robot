@@ -1,0 +1,35 @@
+mass = 1;
+length = 1;
+g = 9.81;
+
+theta0 = deg2rad(60);
+omega0 = 0;
+
+state0 = [theta0; omega0];
+
+time = [0 1];
+
+[t, x] = ode45(@(t,x) invPendulum(x, length, g), time, state0);
+
+theta = x(:,1);
+theta_dot = x(:,2);
+
+% Plot angle
+figure;
+plot(t, rad2deg(theta), 'LineWidth', 2);
+xlabel('Time (s)');
+ylabel('\theta (deg)');
+title('Inverted Pendulum Fall');
+grid on;
+
+
+function dx = invPendulum(x, l, g)
+
+theta = x(1);
+theta_dot = x(2);
+
+theta_ddot = (g/l)*sin(theta);
+
+dx = [theta_dot;
+      theta_ddot];
+end
