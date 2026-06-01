@@ -31,6 +31,11 @@ theta_dot = x(:,2);
 
 s = zeros(length(theta), 1);
 forearm_inches = zeros(length(theta), 1);
+
+alpha = zeros(length(theta), 1);
+xc = zeros(length(theta), 1);
+yc = zeros(length(theta), 1);
+
 figure(1);
 for i = 1:length(t)
 
@@ -54,6 +59,7 @@ for i = 1:length(t)
     yc(i) = yp + s(i)*sin(alpha(i));
 
     if yc(i) < 0.1
+        time_disaster = t(i);
         break
     end
 
