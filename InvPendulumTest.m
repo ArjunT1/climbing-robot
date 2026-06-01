@@ -1,14 +1,21 @@
 clear;
 
+
 mass = 1; %kg
-l = .3; %meters
-l_inches = l * 39.3701;
+l_inches = 7;
+l = l_inches/39.3701; %inches converted to meters
 g = 9.81; %m/s
 
-theta0 = deg2rad(-5); %the number is degrees in it
+
+theta0 = -asin(5/7);
+%theta0 = deg2rad(-5); %the number is degrees in it
 omega0 = 0;
 
-phi = deg2rad(85); %the number is degrees in it
+phi = pi/2 + theta0;
+%phi = deg2rad(85); %the number is degrees in it
+%Right now im assuming whatever the angle we are falling away from the
+%tree, the forelimbs are at a position where they hit the tree
+%perpendicular to the tree
 
 state0 = [theta0; omega0];
 
@@ -35,22 +42,22 @@ for i = 1:length(t)
     % Pendulum tip
     xp = l*sin(th);
     yp = l*cos(th);
-
+    
     % Offset segment direction
-    alpha = th - phi;
+    alpha(i) = -th + phi - pi/2;
 
     % Solve for intersection with x = 0
-    s(i) = -xp / sin(alpha);
+    s(i) = -xp / cos(alpha(i));
 
     % Endpoint on vertical axis
-    xc = xp + s(i)*sin(alpha);
-    yc = yp + s(i)*cos(alpha);
+    xc(i) = xp + s(i)*cos(alpha(i));
+    yc(i) = yp + s(i)*sin(alpha(i));
 
-    forearm_inches(i) = -s(i) * 39.3701;
-
-    if yc < 0.1
+    if yc(i) < 0.1
         break
     end
+
+    forearm_inches(i) = s(i) * 39.3701;
 
     % Draw vertical reference line
     plot([0 0], [-1.5 1.5], 'k--');
@@ -60,7 +67,7 @@ for i = 1:length(t)
         'b', 'LineWidth', 3);
 
     % Draw offset segment
-    plot([xp xc], [yp yc], ...
+    plot([xp xc(i)], [yp yc(i)], ...
         'r', 'LineWidth', 3);
 
     % Draw pendulum mass
@@ -100,6 +107,8 @@ xlabel('Time (s)');
 ylabel('Forelimb Length (inches)');
 title('Forelimb Length');
 grid on;
+
+alpha_deg = rad2deg(alpha);
 
 function dx = invPendulum(x, l, g)
 
