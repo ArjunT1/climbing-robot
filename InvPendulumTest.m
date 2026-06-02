@@ -2,12 +2,12 @@ clear;
 
 
 mass = 1; %kg
-l_inches = 7;
+l_inches = 5.1;
 l = l_inches/39.3701; %inches converted to meters
 g = 9.81; %m/s
 
 
-theta0 = -asin(5/7);
+theta0 = -asin(5/l_inches);
 %theta0 = deg2rad(-5); %the number is degrees in it
 omega0 = 0;
 
@@ -58,7 +58,7 @@ for i = 1:length(t)
     xc(i) = xp + s(i)*cos(alpha(i));
     yc(i) = yp + s(i)*sin(alpha(i));
 
-    if yc(i) < 0.1
+    if yc(i) < 0.0
         time_disaster = t(i);
         break
     end
