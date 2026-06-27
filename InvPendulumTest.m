@@ -35,6 +35,8 @@ forearm_inches = zeros(length(theta), 1);
 alpha = zeros(length(theta), 1);
 xc = zeros(length(theta), 1);
 yc = zeros(length(theta), 1);
+xp = zeros(length(theta), 1);
+yp = zeros(length(theta), 1);
 
 figure(1);
 for i = 1:length(t)
@@ -45,18 +47,18 @@ for i = 1:length(t)
     th = theta(i);
 
     % Pendulum tip
-    xp = l*sin(th);
-    yp = l*cos(th);
+    xp(i) = l*sin(th);
+    yp(i) = l*cos(th);
     
     % Offset segment direction
     alpha(i) = -th + phi - pi/2;
 
     % Solve for intersection with x = 0
-    s(i) = -xp / cos(alpha(i));
+    s(i) = -xp(i) / cos(alpha(i));
 
     % Endpoint on vertical axis
-    xc(i) = xp + s(i)*cos(alpha(i));
-    yc(i) = yp + s(i)*sin(alpha(i));
+    xc(i) = xp(i) + s(i)*cos(alpha(i));
+    yc(i) = yp(i) + s(i)*sin(alpha(i));
 
     if yc(i) < 0.0
         time_disaster = t(i);
@@ -69,15 +71,15 @@ for i = 1:length(t)
     plot([0 0], [-1.5 1.5], 'k--');
 
     % Draw pendulum
-    plot([0 xp], [0 yp], ...
+    plot([0 xp(i)], [0 yp(i)], ...
         'b', 'LineWidth', 3);
 
     % Draw offset segment
-    plot([xp xc(i)], [yp yc(i)], ...
+    plot([xp(i) xc(i)], [yp(i) yc(i)], ...
         'r', 'LineWidth', 3);
 
     % Draw pendulum mass
-    plot(xp, yp, ...
+    plot(xp(i), yp(i), ...
         'ko', ...
         'MarkerFaceColor', 'k', ...
         'MarkerSize', 10);
@@ -95,6 +97,8 @@ end
 
 cooked_angle = rad2deg(theta) + rad2deg(phi);
 
+forearm_extension = forearm_inches - 4;
+
 % Plot angle
 figure(3);
 plot(t, rad2deg(theta), 'LineWidth', 2);
@@ -105,13 +109,13 @@ grid on;
 
 %final variable which shows at any given time what the forearm length should
 %be, at time 0 it should be that length right when we begin falling
-time_and_forearm = [t forearm_inches];
+time_alphadeg_forearm_xy = [t rad2deg(alpha) forearm_extension xp*39.3701 (yc-yp(1))*39.3701];
 
 figure(2);
-plot(t, forearm_inches, 'LineWidth', 2);
+plot(t, forearm_extension, 'LineWidth', 2);
 xlabel('Time (s)');
-ylabel('Forelimb Length (inches)');
-title('Forelimb Length');
+ylabel('Forelimb Extension (inches)');
+title('Forelimb Extension');
 grid on;
 
 alpha_deg = rad2deg(alpha);
