@@ -7,7 +7,7 @@ l = l_inches/39.3701; %inches converted to meters
 g = 9.81; %m/s
 
 
-theta0 = -asin(5/l_inches);
+theta0 = -asin(4/l_inches);
 %theta0 = deg2rad(-5); %the number is degrees in it
 omega0 = 0;
 

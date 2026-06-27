@@ -74,31 +74,31 @@ for ii = 1:length(l)
 
         
     
-        % % Draw vertical reference line
-        % plot([0 0], [-1.5 1.5], 'k--');
-        % 
-        % % Draw pendulum
-        % plot([0 xp], [0 yp], ...
-        %     'b', 'LineWidth', 3);
-        % 
-        % % Draw offset segment
-        % plot([xp xc], [yp yc], ...
-        %     'r', 'LineWidth', 3);
-        % 
-        % % Draw pendulum mass
-        % plot(xp, yp, ...
-        %     'ko', ...
-        %     'MarkerFaceColor', 'k', ...
-        %     'MarkerSize', 10);
-        % 
-        % axis equal;
-        % axis([-.75 .75 -.75 .75]);
-        % 
-        % title(sprintf('t = %.2f s', t(i)));
-        % 
-        % grid on;
-        % 
-        % drawnow;
+        % Draw vertical reference line
+        plot([0 0], [-1.5 1.5], 'k--');
+
+        % Draw pendulum
+        plot([0 xp], [0 yp], ...
+            'b', 'LineWidth', 3);
+
+        % Draw offset segment
+        plot([xp xc], [yp yc], ...
+            'r', 'LineWidth', 3);
+
+        % Draw pendulum mass
+        plot(xp, yp, ...
+            'ko', ...
+            'MarkerFaceColor', 'k', ...
+            'MarkerSize', 10);
+
+        axis equal;
+        axis([-.75 .75 -.75 .75]);
+
+        title(sprintf('t = %.2f s', t(i)));
+
+        grid on;
+
+        drawnow;
     end
 end
 cooked_angle = rad2deg(theta) + rad2deg(phi);
