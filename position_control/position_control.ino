@@ -37,8 +37,29 @@ void loop() {
   //pos=dxl.getPresentPosition(dxl_ID1);
   //Serial.println(pos);
   
-  dxl.setGoalVelocity(dxl_ID1, -300);
-  delay(2000);
+  if (Serial.available() > 0){
+    char key = Serial.read();
+    //Serial.println("I got a ");
+    //Serial.println(key, DEC);
+
+    if (key == 'w'){
+      Serial.println("down");
+      dxl.setGoalVelocity(dxl_ID1, -300);
+      delay(1000);
+    }
+    else if (key == 's'){
+      Serial.println("up");
+      dxl.setGoalVelocity(dxl_ID1, 300);
+      delay(1000);
+    }
+    else{
+      dxl.setGoalVelocity(dxl_ID1, 0);
+    }
+
+
+  }
+  //dxl.setGoalVelocity(dxl_ID1, -300);
+  //delay(2000);
   //dxl.setGoalVelocity(dxl_ID1, 0);
   //delay(2000);
 
